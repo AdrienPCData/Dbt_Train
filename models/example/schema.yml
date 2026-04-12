@@ -1,9 +1,11 @@
 version: 2
 
-models:
-  - name: stg_games
-    columns:
-      - name: game_id
-        tests:
-          - unique
-          - not_null
+sources:
+  - name: raw
+    schema: ZELDA_DBT   # ou ton dataset BigQuery
+    tables:
+      - name: games
+      - name: platforms
+      - name: game_platform
+      - name: sales
+      - name: reviews
