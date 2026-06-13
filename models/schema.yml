@@ -1,0 +1,7 @@
+version: 2
+
+sources:
+  - name: RAW_ZELDA
+    schema: RAW_ZELDA
+    tables:
+      - name: Zelda_sessions
