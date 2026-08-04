@@ -9,11 +9,12 @@ sources:
       - name: raw_characters
       - name: raw_game_character
       - name: raw_games
-      - name : raw_items
-      - name : raw_locations
-      - name : raw_players
-      - name: raw_player_achievements
-      - name : raw_reviews
+      - name: raw_items
+      - name: raw_locations
+      - name: raw_players
+      - name: raw_reviews
+      - name: raw_game_item
+
 models:
   - name: ODS_ZELDA_GAMES
     columns:
@@ -21,3 +22,33 @@ models:
         tests:
           - not_null
           - unique
+  - name: ODS_ZELDA_CHARACTERS
+    columns:
+      - name: name
+        tests:
+          - not_null
+          - unique
+
+  - name: F_GAME_PERFORMANCE
+    columns:
+      - name: title
+        tests:
+          - not_null
+          - unique
+
+      - name: game_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('D_GAMES')
+                field: game_id
+      - name: platform
+        tests: 
+          - accepted_values:
+              arguments:
+               values : ['NES', 'SNES', 'N64','Nintendo 64', 'GameCube', 'Wii', 'Wii U', 'Switch']
+      - name : avg_rating
+        tests:
+          - condition:
+              arguments:
+                condition: "avg_rating BETWEEN 0 AND 10"

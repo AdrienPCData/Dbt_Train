@@ -15,10 +15,10 @@ renamed as (
         platform,
         timeline,
         main_villain,
-        metacritic_score,
-        sales_million
+        is_mainline
 
     from source
+
 
 )
 
