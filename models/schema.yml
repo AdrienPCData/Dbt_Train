@@ -17,11 +17,13 @@ sources:
 
 models:
   - name: ODS_ZELDA_GAMES
+    description: "Les jeux"
     columns:
       - name: game_id
         tests:
           - not_null
           - unique
+
   - name: ODS_ZELDA_CHARACTERS
     columns:
       - name: name
@@ -29,26 +31,67 @@ models:
           - not_null
           - unique
 
-  - name: F_GAME_PERFORMANCE
+  - name: ODS_ZELDA_ITEMS
     columns:
-      - name: title
+      - name: item_id
         tests:
           - not_null
           - unique
 
+  - name: ODS_ZELDA_LOCATIONS
+    columns:
+      - name: location_id
+        tests:
+          - not_null
+          - unique
+
+  - name: ODS_ZELDA_GAME_ITEMS
+    columns:
       - name: game_id
         tests:
+          - not_null
+
+      - name: item_id
+        tests:
+          - not_null
+
+  - name: dim_items
+    description: "Les objets"
+    columns:
+      - name: item_id
+        tests: 
+          - unique
+          - not_null
+
+
+  - name: int_game_items
+    description: "Préparation des relations entre les jeux et leurs items"
+
+    columns:
+      - name: game_id
+        tests:
+          - not_null
+
+      - name: item_id
+        tests:
+          - not_null
+
+  - name: fact_game_items
+    description: "Association entre les jeux et les items Zelda"
+    columns: 
+      - name: game_id
+        tests:
+          - not_null
           - relationships:
               arguments:
-                to: ref('D_GAMES')
+                to: ref('dim_games')
                 field: game_id
-      - name: platform
-        tests: 
-          - accepted_values:
-              arguments:
-               values : ['NES', 'SNES', 'N64','Nintendo 64', 'GameCube', 'Wii', 'Wii U', 'Switch']
-      - name : avg_rating
+
+      - name: item_id
         tests:
-          - condition:
+          - not_null
+          - relationships:
               arguments:
-                condition: "avg_rating BETWEEN 0 AND 10"
+                to: ref('dim_items')
+                field: item_id
+  
