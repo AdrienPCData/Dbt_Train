@@ -1,0 +1,97 @@
+version: 2
+
+sources:
+  - name: RAW_ZELDA
+    schema: RAW_ZELDA
+    tables:
+      - name: raw_sessions
+      - name: raw_achievements
+      - name: raw_characters
+      - name: raw_game_character
+      - name: raw_games
+      - name: raw_items
+      - name: raw_locations
+      - name: raw_players
+      - name: raw_reviews
+      - name: raw_game_item
+
+models:
+  - name: ODS_ZELDA_GAMES
+    description: "Les jeux"
+    columns:
+      - name: game_id
+        tests:
+          - not_null
+          - unique
+
+  - name: ODS_ZELDA_CHARACTERS
+    columns:
+      - name: name
+        tests:
+          - not_null
+          - unique
+
+  - name: ODS_ZELDA_ITEMS
+    columns:
+      - name: item_id
+        tests:
+          - not_null
+          - unique
+
+  - name: ODS_ZELDA_LOCATIONS
+    columns:
+      - name: location_id
+        tests:
+          - not_null
+          - unique
+
+  - name: ODS_ZELDA_GAME_ITEMS
+    columns:
+      - name: game_id
+        tests:
+          - not_null
+
+      - name: item_id
+        tests:
+          - not_null
+
+  - name: dim_items
+    description: "Les objets"
+    columns:
+      - name: item_id
+        tests: 
+          - unique
+          - not_null
+
+
+  - name: int_game_items
+    description: "Préparation des relations entre les jeux et leurs items"
+
+    columns:
+      - name: game_id
+        tests:
+          - not_null
+
+      - name: item_id
+        tests:
+          - not_null
+
+  - name: fact_game_items
+    description: "Association entre les jeux et les items Zelda"
+    columns: 
+      - name: game_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_games')
+                field: game_id
+
+      - name: item_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_items')
+                field: item_id
+  
