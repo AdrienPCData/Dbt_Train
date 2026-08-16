@@ -11,7 +11,9 @@ renamed as (
     select
         item_id,
         item_name,
-        category
+        category,
+        rarity,
+        base_value
 
     from source
 
